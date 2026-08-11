@@ -5,7 +5,7 @@ import UseTheme from "./custom hooks/Usetheme";
 import Login from "./genericComponents/Login";
 import Signup from "./genericComponents/Signup";
 import ResetPassword from "./genericComponents/ResetPassword";
-import ForgetPassword from "./genericComponents/ForgetPassword";
+import ForgetPassword from "./genericComponents/Forgetpassword"
 import ProtectedRoute from "./genericComponents/ProtectedRoute";
 
 import HotelForm from "./Hotel/HotelForm";
