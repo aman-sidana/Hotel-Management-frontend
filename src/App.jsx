@@ -29,6 +29,7 @@ import HotelRoomManagement from "./Hotel/HotelRoomManagement";
 
 import HotelRoom from "./User/HotelRoom";
 import UserBooking from "./User/UserBooking";
+import Forgetpassword from "./genericComponents/Forgetpassword";
 
 function App() {
   UseTheme();
@@ -41,7 +42,7 @@ function App() {
 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/forget" element={<ForgetPassword />} />
+          <Route path="/forget" element={< Forgetpassword/>} />
           <Route path="/resetpassword" element={<ResetPassword />} />
           <Route path="/adminform" element={<AdminForm />} />
           <Route path="/checkrequest" element={<CheckRequest />} />
