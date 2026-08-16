@@ -125,7 +125,7 @@ function HotelRoomManagement() {
       { key: "miniFridge", label: "🧊 Mini Fridge" },
       { key: "roomService", label: "🍽️ Room Service" },
     ];
-    return all.filter((f) => room[f.key]);
+    return all.filter((f) => room?.amenities?.includes(f.key) || room[f.key]);
   };
 
   return (

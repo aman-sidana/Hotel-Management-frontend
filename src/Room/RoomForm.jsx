@@ -18,6 +18,32 @@ function RoomForm() {
   const [loading, setLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
+  // Helper to extract initial arrays (handling legacy boolean fields if needed)
+  const getInitialBeds = () => {
+    if (existingRoom?.beds && Array.isArray(existingRoom.beds) && existingRoom.beds.length > 0) {
+      return existingRoom.beds;
+    }
+    const legacy = [];
+    if (existingRoom?.kingSizeBed) legacy.push("king");
+    if (existingRoom?.queenSizeBed) legacy.push("queen");
+    if (existingRoom?.singleBed) legacy.push("single");
+    if (existingRoom?.doubleBed) legacy.push("double");
+    return legacy;
+  };
+
+  const getInitialAmenities = () => {
+    if (existingRoom?.amenities && Array.isArray(existingRoom.amenities) && existingRoom.amenities.length > 0) {
+      return existingRoom.amenities;
+    }
+    const legacyKeys = [
+      "ac", "cooler", "attachedBathroom", "bathtub", "geyser", "tv",
+      "wifi", "telephone", "miniFridge", "microwave", "electricKettle",
+      "sofa", "diningTable", "wardrobe", "balcony", "locker",
+      "smokeDetector", "fireExtinguisher", "roomService", "laundryService", "housekeeping"
+    ];
+    return legacyKeys.filter((key) => existingRoom?.[key]);
+  };
+
   const [form, setForm] = useState({
     hotelId: existingRoom?.hotelId?._id || existingRoom?.hotelId || "",
     roomNumber: existingRoom?.roomNumber || "",
@@ -25,34 +51,13 @@ function RoomForm() {
     roomType: existingRoom?.roomType || "Single",
     pricePerNight: existingRoom?.pricePerNight || "",
     capacity: existingRoom?.capacity || 2,
-    kingSizeBed: existingRoom?.kingSizeBed || false,
-    queenSizeBed: existingRoom?.queenSizeBed || false,
-    singleBed: existingRoom?.singleBed || false,
-    doubleBed: existingRoom?.doubleBed || false,
-    ac: existingRoom?.ac || false,
-    cooler: existingRoom?.cooler || false,
-    attachedBathroom: existingRoom?.attachedBathroom || false,
-    bathtub: existingRoom?.bathtub || false,
-    geyser: existingRoom?.geyser || false,
-    tv: existingRoom?.tv || false,
-    wifi: existingRoom?.wifi || false,
-    telephone: existingRoom?.telephone || false,
-    miniFridge: existingRoom?.miniFridge || false,
-    microwave: existingRoom?.microwave || false,
-    electricKettle: existingRoom?.electricKettle || false,
-    sofa: existingRoom?.sofa || false,
-    diningTable: existingRoom?.diningTable || false,
-    wardrobe: existingRoom?.wardrobe || false,
-    balcony: existingRoom?.balcony || false,
-    locker: existingRoom?.locker || false,
-    smokeDetector: existingRoom?.smokeDetector || false,
-    fireExtinguisher: existingRoom?.fireExtinguisher || false,
-    roomService: existingRoom?.roomService || false,
-    laundryService: existingRoom?.laundryService || false,
-    housekeeping: existingRoom?.housekeeping || false,
+    beds: getInitialBeds(),
+    amenities: getInitialAmenities(),
   });
 
-  useEffect(() => { fetchHotels(); }, []);
+  useEffect(() => {
+    fetchHotels();
+  }, []);
 
   const fetchHotels = async () => {
     try {
@@ -61,14 +66,36 @@ function RoomForm() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setHotels(Array.isArray(res.data) ? res.data : res.data.result || []);
-    } catch (error) { console.log("Error fetching hotels:", error); }
+    } catch (error) {
+      console.log("Error fetching hotels:", error);
+    }
   };
 
-  const handleChange = (e) => { setForm({ ...form, [e.target.name]: e.target.value }); };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  const handleCheckboxChange = (e) => { setForm({ ...form, [e.target.name]: e.target.checked }); };
+  const handleBedToggle = (bedId) => {
+    setForm((prev) => {
+      const beds = prev.beds.includes(bedId)
+        ? prev.beds.filter((b) => b !== bedId)
+        : [...prev.beds, bedId];
+      return { ...prev, beds };
+    });
+  };
 
-  const handleFileChange = (e) => { setSelectedFiles([...e.target.files]); };
+  const handleAmenityToggle = (amenityId) => {
+    setForm((prev) => {
+      const amenities = prev.amenities.includes(amenityId)
+        ? prev.amenities.filter((a) => a !== amenityId)
+        : [...prev.amenities, amenityId];
+      return { ...prev, amenities };
+    });
+  };
+
+  const handleFileChange = (e) => {
+    setSelectedFiles([...e.target.files]);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,25 +104,53 @@ function RoomForm() {
     }
 
     const formData = new FormData();
-    Object.keys(form).forEach((key) => { formData.append(key, form[key]); });
-    selectedFiles.forEach((file) => { formData.append("images", file); });
+    formData.append("hotelId", form.hotelId);
+    formData.append("roomNumber", form.roomNumber);
+    formData.append("floor", form.floor);
+    formData.append("roomType", form.roomType);
+    formData.append("pricePerNight", form.pricePerNight);
+    formData.append("capacity", form.capacity);
+    formData.append("beds", JSON.stringify(form.beds));
+    formData.append("amenities", JSON.stringify(form.amenities));
+
+    selectedFiles.forEach((file) => {
+      formData.append("images", file);
+    });
 
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
       if (isEditMode) {
-        await axios.patch(`${import.meta.env.VITE_API_URL}/room/updateroom?id=${existingRoom._id}`, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } });
+        await axios.patch(
+          `${import.meta.env.VITE_API_URL}/room/updateroom?id=${existingRoom._id}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         alert("Room Details Updated Successfully!");
       } else {
-        const endpoint = isAdmin ? `${import.meta.env.VITE_API_URL}/room/admin-add-room` : `${import.meta.env.VITE_API_URL}/room/addroom`;
-        await axios.post(endpoint, formData, { headers: { "Content-Type": "multipart/form-data", Authorization: `Bearer ${token}` } });
+        const endpoint = isAdmin
+          ? `${import.meta.env.VITE_API_URL}/room/admin-add-room`
+          : `${import.meta.env.VITE_API_URL}/room/addroom`;
+        await axios.post(endpoint, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         alert("Room Entry Created Successfully!");
       }
       navigate(-1);
     } catch (error) {
       console.log(error);
       alert(error.response?.data?.message || "Failed to process room details.");
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const labelClass = "block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5";
@@ -103,38 +158,38 @@ function RoomForm() {
   const checkboxLabel = "flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 cursor-pointer";
   const checkboxGrid = "grid grid-cols-2 sm:grid-cols-3 gap-2 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 p-4 rounded-xl";
 
-  const beds = [
-    { name: "kingSizeBed", label: "King Size Bed" },
-    { name: "queenSizeBed", label: "Queen Size Bed" },
-    { name: "singleBed", label: "Single Bed" },
-    { name: "doubleBed", label: "Double Bed" },
+  const bedOptions = [
+    { id: "king", label: "King Size Bed" },
+    { id: "queen", label: "Queen Size Bed" },
+    { id: "single", label: "Single Bed" },
+    { id: "double", label: "Double Bed" },
   ];
 
-  const facilities = [
-    { name: "ac", label: "Air Conditioner" },
-    { name: "cooler", label: "Cooler" },
-    { name: "attachedBathroom", label: "Attached Bathroom" },
-    { name: "bathtub", label: "Bathtub" },
-    { name: "geyser", label: "Geyser" },
-    { name: "tv", label: "Television" },
-    { name: "wifi", label: "Free WiFi" },
-    { name: "telephone", label: "Telephone" },
-    { name: "miniFridge", label: "Mini Fridge" },
-    { name: "microwave", label: "Microwave" },
-    { name: "electricKettle", label: "Electric Kettle" },
-    { name: "sofa", label: "Sofa Set" },
-    { name: "diningTable", label: "Dining Table" },
-    { name: "wardrobe", label: "Wardrobe" },
-    { name: "balcony", label: "Balcony" },
-    { name: "locker", label: "Locker / Safe" },
-    { name: "smokeDetector", label: "Smoke Detector" },
-    { name: "fireExtinguisher", label: "Fire Extinguisher" },
+  const facilityOptions = [
+    { id: "ac", label: "Air Conditioner" },
+    { id: "cooler", label: "Cooler" },
+    { id: "attachedBathroom", label: "Attached Bathroom" },
+    { id: "bathtub", label: "Bathtub" },
+    { id: "geyser", label: "Geyser" },
+    { id: "tv", label: "Television" },
+    { id: "wifi", label: "Free WiFi" },
+    { id: "telephone", label: "Telephone" },
+    { id: "miniFridge", label: "Mini Fridge" },
+    { id: "microwave", label: "Microwave" },
+    { id: "electricKettle", label: "Electric Kettle" },
+    { id: "sofa", label: "Sofa Set" },
+    { id: "diningTable", label: "Dining Table" },
+    { id: "wardrobe", label: "Wardrobe" },
+    { id: "balcony", label: "Balcony" },
+    { id: "locker", label: "Locker / Safe" },
+    { id: "smokeDetector", label: "Smoke Detector" },
+    { id: "fireExtinguisher", label: "Fire Extinguisher" },
   ];
 
-  const services = [
-    { name: "roomService", label: "24/7 Room Service" },
-    { name: "laundryService", label: "Laundry Service" },
-    { name: "housekeeping", label: "Daily Housekeeping" },
+  const serviceOptions = [
+    { id: "roomService", label: "24/7 Room Service" },
+    { id: "laundryService", label: "Laundry Service" },
+    { id: "housekeeping", label: "Daily Housekeeping" },
   ];
 
   return (
@@ -201,9 +256,14 @@ function RoomForm() {
           <div>
             <label className={sectionLabel}>🛏️ Bed Configuration</label>
             <div className={checkboxGrid}>
-              {beds.map((bed) => (
-                <label key={bed.name} className={checkboxLabel}>
-                  <input type="checkbox" name={bed.name} checked={form[bed.name]} onChange={handleCheckboxChange} className="accent-emerald-500 w-4 h-4" />
+              {bedOptions.map((bed) => (
+                <label key={bed.id} className={checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={form.beds.includes(bed.id)}
+                    onChange={() => handleBedToggle(bed.id)}
+                    className="accent-emerald-500 w-4 h-4"
+                  />
                   {bed.label}
                 </label>
               ))}
@@ -213,9 +273,14 @@ function RoomForm() {
           <div>
             <label className={sectionLabel}>🏨 Facilities & Amenities</label>
             <div className={checkboxGrid}>
-              {facilities.map((item) => (
-                <label key={item.name} className={checkboxLabel}>
-                  <input type="checkbox" name={item.name} checked={form[item.name]} onChange={handleCheckboxChange} className="accent-emerald-500 w-4 h-4" />
+              {facilityOptions.map((item) => (
+                <label key={item.id} className={checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={form.amenities.includes(item.id)}
+                    onChange={() => handleAmenityToggle(item.id)}
+                    className="accent-emerald-500 w-4 h-4"
+                  />
                   {item.label}
                 </label>
               ))}
@@ -225,9 +290,14 @@ function RoomForm() {
           <div>
             <label className={sectionLabel}>🛎️ Services Offered</label>
             <div className={checkboxGrid}>
-              {services.map((srv) => (
-                <label key={srv.name} className={checkboxLabel}>
-                  <input type="checkbox" name={srv.name} checked={form[srv.name]} onChange={handleCheckboxChange} className="accent-emerald-500 w-4 h-4" />
+              {serviceOptions.map((srv) => (
+                <label key={srv.id} className={checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={form.amenities.includes(srv.id)}
+                    onChange={() => handleAmenityToggle(srv.id)}
+                    className="accent-emerald-500 w-4 h-4"
+                  />
                   {srv.label}
                 </label>
               ))}

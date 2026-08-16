@@ -471,7 +471,7 @@ function HotelRoom() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-            {/* Search Room Input */}
+
             <div className="relative w-full sm:w-64">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">🔍</span>
               <input
@@ -496,7 +496,6 @@ function HotelRoom() {
               )}
             </div>
 
-            {/* Sort By Dropdown */}
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -534,7 +533,6 @@ function HotelRoom() {
             </div>
           ) : (
             <>
-              {/* 4 cards per row grid format */}
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 w-full" id="rooms-grid">
                 {rooms.map((room) => {
                   const currentUser = JSON.parse(localStorage.getItem("currentuser") || "null");
@@ -572,17 +570,17 @@ function HotelRoom() {
 
                           <p className="text-xs text-slate-500 dark:text-slate-400">Floor {room.floor} · {room.capacity} Guest(s)</p>
                           <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Bed: {room.kingSizeBed ? "King Size" : room.queenSizeBed ? "Queen Size" : room.doubleBed ? "Double" : room.singleBed ? "Single" : "Standard"}
+                            Bed: {room.beds?.length ? room.beds.map(b => b.charAt(0).toUpperCase() + b.slice(1)).join(", ") : (room.kingSizeBed ? "King Size" : room.queenSizeBed ? "Queen Size" : room.doubleBed ? "Double" : room.singleBed ? "Single" : "Standard")}
                           </p>
 
                           <p className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">₹{room.pricePerNight} <span className="text-xs font-normal text-slate-400">/ night</span></p>
 
                           <div className="flex flex-wrap gap-1 mt-1">
-                            {room.ac && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">❄️ AC</span>}
-                            {room.wifi && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">📶 WiFi</span>}
-                            {room.tv && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">📺 TV</span>}
-                            {room.geyser && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">🚿 Geyser</span>}
-                            {room.balcony && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">🌅 Balcony</span>}
+                            {(room.amenities?.includes("ac") || room.ac) && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">❄️ AC</span>}
+                            {(room.amenities?.includes("wifi") || room.wifi) && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">📶 WiFi</span>}
+                            {(room.amenities?.includes("tv") || room.tv) && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">📺 TV</span>}
+                            {(room.amenities?.includes("geyser") || room.geyser) && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">🚿 Geyser</span>}
+                            {(room.amenities?.includes("balcony") || room.balcony) && <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">🌅 Balcony</span>}
                           </div>
                         </div>
                       </div>
@@ -600,7 +598,6 @@ function HotelRoom() {
                 })}
               </div>
 
-              {/* Room Pagination Controls */}
               {totalPages > 1 && (
                 <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
                   <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">
@@ -667,7 +664,6 @@ function HotelRoom() {
               <form onSubmit={handleConfirmBooking} className="flex flex-col gap-4">
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">Confirm Booking</h2>
 
-                {/* ── 10-Minute Hold Live Countdown Banner ── */}
                 <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-amber-700 dark:text-amber-300">⏱️ Temporary Hold Active</span>
@@ -692,7 +688,6 @@ function HotelRoom() {
                   <input type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} required className="form-input w-full" />
                 </div>
 
-                {/* ── Coupon Dropdown ── */}
                 {coupons.length > 0 && (
                   <div>
                     <label className="block text-xs font-semibold uppercase text-slate-500 dark:text-slate-400 mb-1.5">
@@ -719,7 +714,6 @@ function HotelRoom() {
                           </option>
                         ))}
                     </select>
-                    {/* Show message if no eligible coupons after filtering */}
                     {coupons.filter((c) => !c.minPriceAvail || totalPrice >= c.minPriceAvail).length === 0 && (
                       <p className="text-xs text-amber-500 dark:text-amber-400 mt-1">
                         ⚠️ No coupons available for this booking amount. Increase your stay duration to unlock offers.
@@ -728,7 +722,6 @@ function HotelRoom() {
                   </div>
                 )}
 
-                {/* ── Price Breakdown ── */}
                 <div className="rounded-xl border border-slate-200 dark:border-slate-700 p-4 bg-slate-50 dark:bg-slate-700/30 flex flex-col gap-2">
                   <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
                     <span>Price / Night</span>
@@ -739,7 +732,6 @@ function HotelRoom() {
                     <span>{totalNights}</span>
                   </div>
 
-                  {/* Original total */}
                   <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
                     <span>Subtotal</span>
                     <span className={couponDiscount > 0 ? "line-through text-slate-400 dark:text-slate-500" : ""}>
@@ -747,7 +739,6 @@ function HotelRoom() {
                     </span>
                   </div>
 
-                  {/* Discount line — only visible when a coupon is applied */}
                   {couponDiscount > 0 && (
                     <div className="flex justify-between text-sm text-emerald-600 dark:text-emerald-400 font-semibold">
                       <span>🎟️ Coupon Discount ({selectedCoupon.couponCode})</span>
@@ -834,7 +825,6 @@ function HotelRoom() {
               </div>
             ) : (
               <>
-                {/* ── 10-Minute Hold Live Countdown Banner ── */}
                 <div className="mb-4 p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between shadow-sm">
                   <div className="flex items-center gap-2">
                     <span className="text-xs font-bold text-amber-700 dark:text-amber-300">⏱️ Temporary Hold Active</span>
@@ -845,10 +835,8 @@ function HotelRoom() {
                   </span>
                 </div>
 
-                {/* ── Split layout: Room info left | Calendar right ── */}
                 <div className="flex flex-col lg:flex-row gap-6">
 
-                  {/* ── Left: Full room details ── */}
                   <div className="flex-1 min-w-0 flex flex-col gap-5">
 
                     {viewedRoom.images && viewedRoom.images.length > 0 ? (
@@ -887,18 +875,32 @@ function HotelRoom() {
                     <div>
                       <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">Bed Type</p>
                       <div className="flex flex-wrap gap-2">
-                        {Object.entries(bedLabels).filter(([key]) => viewedRoom[key]).map(([key, label]) => (
-                          <span key={key} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">🛏️ {label}</span>
-                        ))}
+                        {viewedRoom.beds?.length ? (
+                          viewedRoom.beds.map((b) => (
+                            <span key={b} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">🛏️ {b.charAt(0).toUpperCase() + b.slice(1)}</span>
+                          ))
+                        ) : (
+                          Object.entries(bedLabels).filter(([key]) => viewedRoom[key]).map(([key, label]) => (
+                            <span key={key} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400">🛏️ {label}</span>
+                          ))
+                        )}
                       </div>
                     </div>
 
                     <div>
                       <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">Amenities & Services</p>
                       <div className="flex flex-wrap gap-2">
-                        {Object.entries(amenityLabels).filter(([key]) => viewedRoom[key]).map(([key, label]) => (
-                          <span key={key} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">{label}</span>
-                        ))}
+                        {viewedRoom.amenities?.length ? (
+                          viewedRoom.amenities.map((item) => (
+                            <span key={item} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">
+                              {amenityLabels[item] || item}
+                            </span>
+                          ))
+                        ) : (
+                          Object.entries(amenityLabels).filter(([key]) => viewedRoom[key]).map(([key, label]) => (
+                            <span key={key} className="text-xs font-semibold px-2.5 py-1 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-400">{label}</span>
+                          ))
+                        )}
                       </div>
                     </div>
 
@@ -911,11 +913,9 @@ function HotelRoom() {
                     </button>
                   </div>
 
-                  {/* ── Vertical divider ── */}
                   <div className="hidden lg:block w-px bg-slate-200 dark:bg-slate-700 self-stretch" />
                   <div className="block lg:hidden h-px bg-slate-200 dark:bg-slate-700" />
 
-                  {/* ── Right: Booking Calendar ── */}
                   <div className="lg:w-[280px] shrink-0">
                     <RoomBookingCalendar roomId={viewedRoom._id} />
                   </div>

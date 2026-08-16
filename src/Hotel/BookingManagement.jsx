@@ -66,34 +66,7 @@ function BookingManagement() {
     setBookings((prev) => prev.map((b) => (b._id === id ? { ...b, status: newStatus } : b)));
   };
 
-  const handleApprove = async (id) => {
-    try {
-      setActionLoadingId(id);
-      const token = localStorage.getItem("token");
-      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/booking/approve`, null, {
-        params: { id },
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (response.data.success) updateLocalStatus(id, "approved");
-    } catch (error) {
-      console.log(error); alert(error.response?.data?.message || "Failed to approve booking");
-    } finally { setActionLoadingId(null); }
-  };
 
-  const handleReject = async (id) => {
-
-    try {
-      setActionLoadingId(id);
-      const token = localStorage.getItem("token");
-      const response = await axios.patch(`${import.meta.env.VITE_API_URL}/booking/reject`, null, {
-        params: { id },
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (response.data.success) updateLocalStatus(id, "rejected");
-    } catch (error) {
-      console.log(error); alert(error.response?.data?.message || "Failed to reject booking");
-    } finally { setActionLoadingId(null); }
-  };
 
   const handleCheckIn = async (id) => {
     try {
@@ -132,10 +105,8 @@ function BookingManagement() {
     const base = "inline-block px-2.5 py-1 rounded-full text-xs font-bold capitalize";
     switch (status) {
       case "pending": return `${base} bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400`;
-      case "approved": return `${base} bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400`;
       case "checkIn": return `${base} bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400`;
       case "checkOut": return `${base} bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400`;
-      case "rejected":
       case "cancelled": return `${base} bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400`;
       default: return `${base} bg-slate-100 text-slate-500`;
     }
@@ -144,10 +115,8 @@ function BookingManagement() {
   const tabs = [
     { key: "all", label: "All" },
     { key: "pending", label: "Pending" },
-    { key: "approved", label: "Approved" },
     { key: "checkIn", label: "Checked In" },
     { key: "checkOut", label: "Checked Out" },
-    { key: "rejected", label: "Rejected" },
   ];
 
   const filteredBookings = activeTab === "all" ? bookings : bookings.filter((b) => b.status === activeTab);
@@ -247,18 +216,12 @@ function BookingManagement() {
 
               <div className="flex gap-3 justify-end flex-wrap">
                 {booking.status === "pending" && (
-                  <>
-                    <button className="btn-action-success" disabled={actionLoadingId === booking._id} onClick={() => handleApprove(booking._id)}>Approve</button>
-                    <button className="btn-action-danger" disabled={actionLoadingId === booking._id} onClick={() => handleReject(booking._id)}>Reject</button>
-                  </>
-                )}
-                {booking.status === "approved" && (
                   <button className="btn-action-primary" disabled={actionLoadingId === booking._id} onClick={() => handleCheckIn(booking._id)}>Check In</button>
                 )}
                 {booking.status === "checkIn" && (
                   <button className="btn-action-secondary" disabled={actionLoadingId === booking._id} onClick={() => handleCheckOut(booking._id)}>Check Out</button>
                 )}
-                {["checkOut", "rejected", "cancelled"].includes(booking.status) && (
+                {["checkOut", "cancelled"].includes(booking.status) && (
                   <span className="text-sm text-slate-400 dark:text-slate-500 italic">No actions available</span>
                 )}
               </div>
