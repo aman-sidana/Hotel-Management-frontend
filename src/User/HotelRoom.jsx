@@ -310,7 +310,7 @@ function HotelRoom() {
     }
   };
 
-  // 10-Minute Countdown Timer Effect
+  
   useEffect(() => {
     if (!isViewModalOpen && !isModalOpen) {
       if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
