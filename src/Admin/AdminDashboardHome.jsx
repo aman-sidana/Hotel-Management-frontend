@@ -178,7 +178,6 @@ function AdminDashboardHome() {
   return (
     <div className="management-module space-y-8">
 
-      {/* Header + Hotel Picker */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <div>
           <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent dark:from-white dark:to-sky-400">
@@ -210,7 +209,6 @@ function AdminDashboardHome() {
         </div>
       </div>
 
-      {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard icon="🏨" label="Total Hotels" value={selectedHotelId === "all" ? myHotels.length : 1} color="blue" />
         <StatCard icon="🛏️" label="Total Rooms" value={totalRooms} color="violet" sub={`${availableRooms} available`} />
@@ -219,7 +217,6 @@ function AdminDashboardHome() {
         <StatCard icon="💰" label="Revenue" value={`₹${totalRevenue.toLocaleString("en-IN")}`} color="rose" sub="approved + stayed" />
       </div>
 
-      {/* Hotel Cards (all view) */}
       {selectedHotelId === "all" && myHotels.length > 0 && (
         <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700">
@@ -258,7 +255,6 @@ function AdminDashboardHome() {
         </div>
       )}
 
-      {/* Bookings Table */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-slate-800 dark:text-white">Recent Bookings</h3>
@@ -305,7 +301,6 @@ function AdminDashboardHome() {
         )}
       </div>
 
-      {/* Reviews */}
       <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
           <h3 className="font-bold text-slate-800 dark:text-white">Guest Reviews</h3>

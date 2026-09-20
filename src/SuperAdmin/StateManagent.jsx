@@ -3,7 +3,7 @@ import axios from "axios";
 import useSearching from "../custom hooks/useSearching";
 
 function StateManagement() {
-  //seraching k liye 
+
   const [searchQuery, setSearchQuery] = useState("");
   const debouncedSearch = useSearching(searchQuery, 500);
 
@@ -153,7 +153,6 @@ function StateManagement() {
         </button>
       </div>
 
-      {/* Add Form */}
       <div className="flex gap-3 mb-5 flex-wrap">
         <input
           type="text"
@@ -165,7 +164,6 @@ function StateManagement() {
         <button className="btn-action-primary" onClick={addState}>+ Add State</button>
       </div>
 
-      {/* Filters */}
       <div className="flex gap-3 items-center flex-wrap mb-5">
         <button
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${activeTab === "active" ? "bg-blue-600 text-white" : "btn-action-secondary"}`}
@@ -198,7 +196,6 @@ function StateManagement() {
         />
       </div>
 
-      {/* Table */}
       <div className="table-container">
         <table className="data-table">
           <thead>
@@ -268,7 +265,6 @@ function StateManagement() {
         </table>
       </div>
 
-      {/* Pagination Controls */}
       {totalStates > 0 && (
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 pt-3 border-t border-slate-200 dark:border-slate-700">
           <div className="flex items-center gap-4">

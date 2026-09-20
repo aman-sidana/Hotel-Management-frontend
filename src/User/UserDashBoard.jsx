@@ -74,7 +74,6 @@ function UserDashBoard() {
   const cardsRef = useRef(null);
   const currentUser = JSON.parse(localStorage.getItem("currentuser")) || null;
 
-  // Reset page to 1 when search query, sort order, or filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searching, sortBy, filters]);
@@ -91,7 +90,6 @@ function UserDashBoard() {
           limit: hotelsPerPage,
         };
 
-        // Attach only selected boolean filters
         Object.keys(filters).forEach((key) => {
           if (filters[key]) {
             params[key] = true;
@@ -166,7 +164,6 @@ function UserDashBoard() {
     }
   };
 
-  // Extract all hotel images for background slideshow
   const heroImages = hotels.flatMap((h) => h.images || []).filter(Boolean);
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -196,7 +193,6 @@ function UserDashBoard() {
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 selection:bg-blue-500 selection:text-white" ref={pageRef}>
       <Navbar />
 
-      {/* Hero Section with Automated Right-to-Left Sliding Background */}
       <div className="relative overflow-hidden py-24 px-5 mb-10 min-h-[460px] flex items-center justify-center">
         {heroImages.length > 0 ? (
           <div className="absolute inset-0 z-0 overflow-hidden">
@@ -236,7 +232,6 @@ function UserDashBoard() {
           </div>
         )}
 
-        {/* Hero Content */}
         <div className="user-hero relative z-10 text-center max-w-4xl mx-auto w-full">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5
             bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-sky-500/20 backdrop-blur-md text-sky-300 border border-sky-400/30 shadow-lg shadow-sky-500/10">
@@ -251,7 +246,6 @@ function UserDashBoard() {
             Discover top-rated luxury hotels, suites, and comfortable rooms at unbeatable prices.
           </p>
 
-          {/* Hero Search & Sort Bar */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full max-w-2xl mx-auto backdrop-blur-xl bg-white/10 dark:bg-slate-900/40 p-3 rounded-3xl border border-white/20 dark:border-white/10 shadow-2xl shadow-black/40">
             <div className="relative w-full flex-1">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-base">🔍</span>
@@ -299,7 +293,6 @@ function UserDashBoard() {
         </div>
       </div>
 
-      {/* Main Content Area with Sidebar Filter */}
       <div className="w-full px-6 lg:px-12" id="available-hotels-section">
         <div className="flex items-center justify-between mb-8 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
@@ -328,7 +321,7 @@ function UserDashBoard() {
         </div>
 
         <div className="flex gap-8 w-full items-start">
-          {/* Filter Sidebar Component */}
+
           <aside className={`w-64 flex-shrink-0 ${mobileFilterOpen ? "block" : "hidden"} lg:block`}>
             <div className="sticky top-24 rounded-2xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
               <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
@@ -343,7 +336,6 @@ function UserDashBoard() {
                 </button>
               </div>
 
-              {/* BED TYPE */}
               <div className="mb-4">
                 <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
                   Bed Type
@@ -369,7 +361,6 @@ function UserDashBoard() {
                 </div>
               </div>
 
-              {/* AMENITIES */}
               <div className="mb-4">
                 <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
                   Amenities
@@ -400,7 +391,6 @@ function UserDashBoard() {
                 </div>
               </div>
 
-              {/* SERVICES */}
               <div>
                 <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
                   Services
@@ -427,7 +417,6 @@ function UserDashBoard() {
             </div>
           </aside>
 
-          {/* Hotel Grid Area */}
           <main className="flex-1 w-full">
             {loading ? (
               <div className="text-center py-28">
@@ -467,7 +456,7 @@ function UserDashBoard() {
                       onClick={() => handleHotelClick(hotel)}
                       className="user-hotel-card group rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 shadow-md hover:shadow-2xl hover:shadow-blue-500/10 hover:border-blue-500/40 dark:hover:border-sky-400/40 transition-all duration-300 ease-out flex flex-col cursor-pointer"
                     >
-                      {/* Hotel Image Area */}
+
                       <div className="h-56 bg-slate-100 dark:bg-slate-800 relative overflow-hidden">
                         {hotel.images && hotel.images.length > 0 ? (
                           <div className="flex h-full overflow-x-auto no-scrollbar">
@@ -502,7 +491,6 @@ function UserDashBoard() {
                         )}
                       </div>
 
-                      {/* Hotel Info Content */}
                       <div className="p-5 flex flex-col gap-3 flex-1">
                         <div>
                           <h3 className="font-extrabold text-lg text-slate-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors">
@@ -544,7 +532,6 @@ function UserDashBoard() {
                   ))}
                 </div>
 
-                {/* Pagination Controls Bar */}
                 {totalPages > 1 && (
                   <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-slate-200 dark:border-slate-800">
                     <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium">

@@ -25,7 +25,7 @@ function Sidebar({ activetab, SetActivetab }) {
   return (
     <aside className="sidebar-container flex flex-col justify-between">
       <div>
-        {/* Brand & User Header */}
+
         <div className="sidebar-header border-b border-slate-200 dark:border-slate-700/70 p-4">
           <div className="flex items-center justify-between mb-2">
             <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">

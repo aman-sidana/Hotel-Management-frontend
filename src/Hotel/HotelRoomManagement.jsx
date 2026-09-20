@@ -240,13 +240,13 @@ function HotelRoomManagement() {
 
       {showModal && selectedRoom && (
         <div className="modal-overlay" onClick={() => { setShowModal(false); setSelectedRoom(null); }}>
-          {/* Wider modal to fit calendar alongside details */}
+
           <div
             className="modal-box max-h-[90vh] overflow-y-auto"
             style={{ maxWidth: "780px", width: "95vw" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* ── Header ── */}
+
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                 Room #{selectedRoom.roomNumber} Details
@@ -259,10 +259,8 @@ function HotelRoomManagement() {
               </button>
             </div>
 
-            {/* ── Split body: Details | Calendar ── */}
             <div className="flex flex-col lg:flex-row gap-6">
 
-              {/* ── Left: Room details ── */}
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col gap-2 mb-4">
                   {[
@@ -292,18 +290,15 @@ function HotelRoomManagement() {
                 </div>
               </div>
 
-              {/* ── Divider (vertical on large, horizontal on small) ── */}
               <div className="hidden lg:block w-px bg-slate-200 dark:bg-slate-700 self-stretch" />
               <div className="block lg:hidden h-px bg-slate-200 dark:bg-slate-700" />
 
-              {/* ── Right: Booking Calendar ── */}
               <div className="lg:w-[280px] shrink-0">
                 <RoomBookingCalendar roomId={selectedRoom._id} />
               </div>
 
             </div>
 
-            {/* ── Close button ── */}
             <button
               className="w-full mt-5 py-2.5 rounded-xl text-sm font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
               onClick={() => { setShowModal(false); setSelectedRoom(null); }}
@@ -317,4 +312,4 @@ function HotelRoomManagement() {
   );
 }
 
-export default HotelRoomManagement; 
+export default HotelRoomManagement;

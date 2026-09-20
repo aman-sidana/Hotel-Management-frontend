@@ -18,7 +18,6 @@ function RoomForm() {
   const [loading, setLoading] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([]);
 
-  // Helper to extract initial arrays (handling legacy boolean fields if needed)
   const getInitialBeds = () => {
     if (existingRoom?.beds && Array.isArray(existingRoom.beds) && existingRoom.beds.length > 0) {
       return existingRoom.beds;

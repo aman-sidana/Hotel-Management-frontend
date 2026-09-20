@@ -146,7 +146,6 @@ function AdminForm() {
             <input type="number" name="adminphone" placeholder="Admin Phone Number" value={form.adminphone} onChange={handleChange} className={inputClass} />
           </div>
 
-          {/* Email + OTP */}
           <div>
             <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Admin Email Address</label>
             <div className="flex gap-3">

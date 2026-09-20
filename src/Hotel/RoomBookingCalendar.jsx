@@ -43,7 +43,6 @@ function RoomBookingCalendar({ roomId }) {
       const start = new Date(startDate);
       const end = new Date(endDate);
 
-
       start.setHours(0, 0, 0, 0);
       end.setHours(0, 0, 0, 0);
 

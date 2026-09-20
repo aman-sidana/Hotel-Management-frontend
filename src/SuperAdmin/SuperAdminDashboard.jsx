@@ -28,5 +28,4 @@ function SuperAdminDashboard() {
   );
 }
 
-
 export default SuperAdminDashboard;

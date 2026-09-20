@@ -174,7 +174,7 @@ function AdminHotelManagement() {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      {/* Header */}
+
       <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent dark:from-white dark:to-sky-400">
           Hotel Configuration Management
@@ -198,7 +198,6 @@ function AdminHotelManagement() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="flex gap-3 items-center flex-wrap mb-6">
         <button className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${activeTab === "active" ? "bg-blue-600 text-white" : "btn-action-secondary"}`} onClick={() => setActiveTab("active")}>Active Hotels</button>
         <button className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${activeTab === "inactive" ? "bg-blue-600 text-white" : "btn-action-secondary"}`} onClick={() => setActiveTab("inactive")}>Inactive Hotels</button>
@@ -211,7 +210,6 @@ function AdminHotelManagement() {
         <input type="text" className="form-input w-52" placeholder="Search Hotel or Owner..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
       </div>
 
-      {/* Content */}
       {loading ? (
         <div className="text-center py-16 text-slate-400 dark:text-slate-500">Loading hotel records...</div>
       ) : displayedHotels.length === 0 ? (
@@ -272,7 +270,6 @@ function AdminHotelManagement() {
         </div>
       )}
 
-      {/* Modal */}
       {showModal && selectedHotel && (
         <div className="modal-overlay" onClick={() => { setShowModal(false); setSelectedHotel(null); }}>
           <div className="modal-box" onClick={(e) => e.stopPropagation()}>

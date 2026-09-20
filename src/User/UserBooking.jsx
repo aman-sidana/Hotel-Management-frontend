@@ -129,7 +129,6 @@ function UserBooking() {
     }
   };
 
-
   const statusBadgeClass = (status) => {
     const base = "inline-block px-2.5 py-1 rounded-full text-xs font-bold capitalize whitespace-nowrap";
     switch (status) {
@@ -263,9 +262,9 @@ function UserBooking() {
                       reviewedIds.has(booking._id.toString()) ? (
                         <button
                           disabled
-                          className="px-4 py-2 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400 
-                            bg-emerald-50 dark:bg-emerald-950/30 
-                            border border-emerald-200 dark:border-emerald-800/50 
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-emerald-600 dark:text-emerald-400
+                            bg-emerald-50 dark:bg-emerald-950/30
+                            border border-emerald-200 dark:border-emerald-800/50
                             flex items-center gap-1.5 cursor-not-allowed opacity-80"
                         >
                           ✓ Reviewed
@@ -273,9 +272,9 @@ function UserBooking() {
                       ) : (
                         <button
                           onClick={() => handleOpenRatingModal(booking)}
-                          className="px-4 py-2 rounded-xl text-xs font-bold text-amber-600 dark:text-amber-400 
-                            bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-900/40 
-                            border border-amber-200 dark:border-amber-800/50 
+                          className="px-4 py-2 rounded-xl text-xs font-bold text-amber-600 dark:text-amber-400
+                            bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-900/40
+                            border border-amber-200 dark:border-amber-800/50
                             transition-all duration-200 flex items-center gap-1.5 shadow-sm"
                         >
                           ⭐ Add Review
@@ -343,9 +342,9 @@ function UserBooking() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Tell us about room quality, service, cleanliness..."
-                  className="w-full p-3.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-900 
-                    border border-slate-200 dark:border-slate-700 
-                    text-slate-800 dark:text-slate-100 
+                  className="w-full p-3.5 rounded-xl text-sm bg-slate-50 dark:bg-slate-900
+                    border border-slate-200 dark:border-slate-700
+                    text-slate-800 dark:text-slate-100
                     focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                 ></textarea>
               </div>
@@ -354,7 +353,7 @@ function UserBooking() {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="flex-1 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300 
+                  className="flex-1 py-3 rounded-xl font-semibold text-sm text-slate-600 dark:text-slate-300
                     bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-all"
                 >
                   Cancel
@@ -362,8 +361,8 @@ function UserBooking() {
                 <button
                   type="submit"
                   disabled={submittingRating}
-                  className="flex-1 py-3 rounded-xl font-semibold text-sm text-white 
-                    bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 
+                  className="flex-1 py-3 rounded-xl font-semibold text-sm text-white
+                    bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30
                     disabled:opacity-50 transition-all"
                 >
                   {submittingRating ? "Submitting..." : "Submit Review"}

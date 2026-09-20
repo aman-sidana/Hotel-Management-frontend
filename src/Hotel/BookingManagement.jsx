@@ -66,8 +66,6 @@ function BookingManagement() {
     setBookings((prev) => prev.map((b) => (b._id === id ? { ...b, status: newStatus } : b)));
   };
 
-
-
   const handleCheckIn = async (id) => {
     try {
       setActionLoadingId(id);

@@ -198,7 +198,7 @@ function HotelForm() {
         )}
 
         <div className="flex flex-col gap-4">
-          {/* Admin Assignment (SuperAdmin only) */}
+
           {isSuperAdmin && (
             <div>
               <label className={labelClass}>Assign Admin Manager</label>

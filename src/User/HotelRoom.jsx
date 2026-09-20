@@ -90,7 +90,6 @@ function HotelRoom() {
           limit: roomsPerPage,
         };
 
-        // Send only selected filters
         Object.keys(filters).forEach((key) => {
           if (filters[key]) {
             params[key] = true;
@@ -155,7 +154,6 @@ function HotelRoom() {
     }, contentEl);
     return () => context.revert();
   }, [hotelData]);
-
 
   useEffect(() => {
     if (loading) return undefined;
@@ -280,7 +278,7 @@ function HotelRoom() {
       setViewLoading(true);
 
       const token = localStorage.getItem("token");
-      // Create 10-minute temporary hold
+
       const holdRes = await axios.post(`${import.meta.env.VITE_API_URL}/temporary/create`, {
         roomId,
         userId: currentUser._id,
@@ -310,7 +308,6 @@ function HotelRoom() {
     }
   };
 
-  
   useEffect(() => {
     if (!isViewModalOpen && !isModalOpen) {
       if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
@@ -800,7 +797,6 @@ function HotelRoom() {
         </div>
       )}
 
-
       {isViewModalOpen && (
         <div className="modal-overlay" onClick={closeViewModal}>
           <div
@@ -903,7 +899,6 @@ function HotelRoom() {
                         )}
                       </div>
                     </div>
-
 
                     <button
                       onClick={() => { closeViewModal(); handleBookRoom(viewedRoom); }}

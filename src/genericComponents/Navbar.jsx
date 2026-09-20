@@ -28,7 +28,6 @@ function Navbar() {
     <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
       <div className="w-full px-6 lg:px-10 h-16 flex items-center justify-between gap-4">
 
-        {/* Brand Logo */}
         <div
           onClick={() => navigate("/")}
           className="flex items-center gap-3 cursor-pointer group"
@@ -48,9 +47,8 @@ function Navbar() {
           </div>
         </div>
 
-        {/* Right Section: Theme Toggle & Profile Dropdown */}
         <div className="flex items-center gap-3">
-          {/* Dark / Light Mode Switcher */}
+
           <button
             onClick={changeTheme}
             title="Toggle Light/Dark Theme"
@@ -64,7 +62,7 @@ function Navbar() {
 
           {currentUser ? (
             <div className="relative" ref={profileMenuRef}>
-              {/* Profile Avatar Button */}
+
               <button
                 onClick={() => setShowProfileMenu((prev) => !prev)}
                 title={currentUser.name || currentUser.username || "Profile"}
@@ -73,10 +71,9 @@ function Navbar() {
                 {firstLetter}
               </button>
 
-              {/* Profile Dropdown Menu */}
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700 py-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                  {/* User Profile Summary */}
+
                   <div className="px-4 py-2.5 border-b border-slate-100 dark:border-slate-700">
                     <p className="text-sm font-bold text-slate-800 dark:text-white truncate">
                       {currentUser.name || currentUser.username || "User"}
@@ -86,7 +83,6 @@ function Navbar() {
                     </p>
                   </div>
 
-                  {/* Options */}
                   <div className="py-1">
                     <button
                       onClick={() => {
@@ -109,7 +105,6 @@ function Navbar() {
                     </button>
                   </div>
 
-                  {/* Logout Action */}
                   <div className="border-t border-slate-100 dark:border-slate-700 pt-1">
                     <button
                       onClick={() => {

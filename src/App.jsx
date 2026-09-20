@@ -48,13 +48,6 @@ function App() {
           <Route path="/checkrequest" element={<CheckRequest />} />
           <Route path="/checkaddminrequest" element={<CheckAdminRequest />} />
 
-
-
-
-
-
-
-
           <Route path="/home" element={
             <ProtectedRoute>
               <Home />
@@ -99,7 +92,6 @@ function App() {
             </ProtectedRoute>
           } />
 
-
           <Route path="/admindashboard" element={
             <ProtectedRoute>
               <AdminDashBoard />
@@ -132,8 +124,6 @@ function App() {
               <UserBooking />
             </ProtectedRoute>
           } />
-
-
 
         </Routes>
       </BrowserRouter>

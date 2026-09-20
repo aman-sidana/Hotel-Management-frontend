@@ -328,7 +328,6 @@ function CouponManagement() {
           {displayedCoupons.map((coupon) => (
             <div key={coupon._id} className={`admin-card ${!coupon.isActive ? "inactive" : ""}`}>
 
-
               <div className="p-4">
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <span className="font-bold text-base text-blue-600 dark:text-blue-400 tracking-wide">{coupon.couponCode}</span>
