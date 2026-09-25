@@ -110,7 +110,7 @@ function HotelRoomManagement() {
     else if (sortBy === "numberDesc") return Number(b.roomNumber) - Number(a.roomNumber);
     else if (sortBy === "priceLow") return Number(a.pricePerNight) - Number(b.pricePerNight);
     else if (sortBy === "priceHigh") return Number(b.pricePerNight) - Number(a.pricePerNight);
-    return 0;
+    return Number(a.roomNumber) - Number(b.roomNumber);
   });
 
   const facilityList = (room) => {
