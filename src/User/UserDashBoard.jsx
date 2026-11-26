@@ -4,6 +4,7 @@ import { gsap } from "gsap";
 import { useNavigate } from "react-router-dom";
 import UseTheme from "../custom hooks/Usetheme";
 import Navbar from "../genericComponents/Navbar";
+import Footer from "../genericComponents/Footer";
 import useSearching from "../custom hooks/useSearching";
 
 function UserDashBoard() {
@@ -14,7 +15,7 @@ function UserDashBoard() {
   const [totalHotels, setTotalHotels] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const hotelsPerPage = 6;
+  const hotelsPerPage = 8;
 
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -186,14 +187,11 @@ function UserDashBoard() {
     }
   };
 
-  const filterCheckboxClass =
-    "flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300 cursor-pointer hover:text-blue-600 dark:hover:text-sky-400 transition-colors";
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-20 selection:bg-blue-500 selection:text-white" ref={pageRef}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-between selection:bg-blue-500 selection:text-white" ref={pageRef}>
       <Navbar />
 
-      <div className="relative overflow-hidden py-24 px-5 mb-10 min-h-[460px] flex items-center justify-center">
+      <div className="relative overflow-hidden py-16 px-5 mb-8 min-h-[380px] flex items-center justify-center">
         {heroImages.length > 0 ? (
           <div className="absolute inset-0 z-0 overflow-hidden">
             <div
@@ -224,8 +222,8 @@ function UserDashBoard() {
                 onClick={() => setBgIndex(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
                 className={`h-2 rounded-full transition-all duration-500 ${idx === bgIndex
-                    ? "w-8 bg-sky-400 shadow-md shadow-sky-400/50"
-                    : "w-2 bg-white/40 hover:bg-white/70"
+                  ? "w-8 bg-sky-400 shadow-md shadow-sky-400/50"
+                  : "w-2 bg-white/40 hover:bg-white/70"
                   }`}
               />
             ))}
@@ -233,16 +231,16 @@ function UserDashBoard() {
         )}
 
         <div className="user-hero relative z-10 text-center max-w-4xl mx-auto w-full">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-5
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4
             bg-gradient-to-r from-blue-500/20 via-indigo-500/20 to-sky-500/20 backdrop-blur-md text-sky-300 border border-sky-400/30 shadow-lg shadow-sky-500/10">
             <span className="animate-pulse">✨</span> Premium Hotel Stays
           </div>
 
-          <h1 className="text-4xl sm:text-6xl font-black mb-5 bg-gradient-to-r from-white via-sky-100 to-blue-200 bg-clip-text text-transparent drop-shadow-2xl tracking-tight">
+          <h1 className="text-3xl sm:text-5xl font-black mb-4 bg-gradient-to-r from-white via-sky-100 to-blue-200 bg-clip-text text-transparent drop-shadow-2xl tracking-tight">
             Find Your Perfect Stay
           </h1>
 
-          <p className="text-slate-200/90 text-lg sm:text-xl font-medium mb-10 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
+          <p className="text-slate-200/90 text-base sm:text-lg font-medium mb-8 max-w-2xl mx-auto drop-shadow-md leading-relaxed">
             Discover top-rated luxury hotels, suites, and comfortable rooms at unbeatable prices.
           </p>
 
@@ -293,7 +291,7 @@ function UserDashBoard() {
         </div>
       </div>
 
-      <div className="w-full px-6 lg:px-12" id="available-hotels-section">
+      <div className="w-full px-6 lg:px-12 mb-20 flex-1" id="available-hotels-section">
         <div className="flex items-center justify-between mb-8 pb-3 border-b border-slate-200 dark:border-slate-800">
           <div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
@@ -306,118 +304,25 @@ function UserDashBoard() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
-              className="lg:hidden px-4 py-2 rounded-xl text-xs font-bold bg-blue-600 text-white flex items-center gap-1.5 shadow-md shadow-blue-500/20"
+              onClick={() => setMobileFilterOpen(true)}
+              className={`px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all duration-200 shadow-md ${Object.values(filters).filter(Boolean).length > 0
+                  ? "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/25 ring-2 ring-blue-400/50"
+                  : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:text-blue-600 dark:hover:text-sky-400"
+                }`}
             >
-              🔍 {mobileFilterOpen ? "Hide Filters" : "Filter Hotels"}
+              <span className="text-sm">🔍</span>
+              <span>Filter Hotels</span>
+              {Object.values(filters).filter(Boolean).length > 0 && (
+                <span className="ml-1 px-2 py-0.5 rounded-full text-[11px] font-extrabold bg-sky-400 text-slate-950 shadow-sm">
+                  {Object.values(filters).filter(Boolean).length}
+                </span>
+              )}
             </button>
-
-            {totalHotels > 0 && (
-              <span className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/50">
-                {totalHotels} {totalHotels === 1 ? "Hotel" : "Hotels"} Found
-              </span>
-            )}
           </div>
         </div>
 
-        <div className="flex gap-8 w-full items-start">
-
-          <aside className={`w-64 flex-shrink-0 ${mobileFilterOpen ? "block" : "hidden"} lg:block`}>
-            <div className="sticky top-24 rounded-2xl p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
-              <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-slate-800">
-                <h3 className="font-bold text-slate-800 dark:text-white text-sm flex items-center gap-1.5">
-                  🔍 Filter Hotels
-                </h3>
-                <button
-                  onClick={resetFilters}
-                  className="text-xs text-blue-600 dark:text-sky-400 hover:underline font-bold"
-                >
-                  Reset
-                </button>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
-                  Bed Type
-                </p>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { name: "kingSizeBed", label: "🛏️ King Size" },
-                    { name: "queenSizeBed", label: "🛏️ Queen Size" },
-                    { name: "singleBed", label: "🛌 Single Bed" },
-                    { name: "doubleBed", label: "🛏️ Double Bed" },
-                  ].map((f) => (
-                    <label key={f.name} className={filterCheckboxClass}>
-                      <input
-                        type="checkbox"
-                        name={f.name}
-                        checked={filters[f.name]}
-                        onChange={handleFilterChange}
-                        className="accent-blue-600 rounded"
-                      />
-                      {f.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
-                  Amenities
-                </p>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { name: "ac", label: "❄️ AC" },
-                    { name: "wifi", label: "📶 Free WiFi" },
-                    { name: "tv", label: "📺 TV" },
-                    { name: "geyser", label: "🚿 Geyser" },
-                    { name: "miniFridge", label: "🧊 Mini Fridge" },
-                    { name: "bathtub", label: "🛁 Bathtub" },
-                    { name: "balcony", label: "🌅 Balcony" },
-                    { name: "sofa", label: "🛋️ Sofa Set" },
-                    { name: "locker", label: "🔐 Locker" },
-                  ].map((f) => (
-                    <label key={f.name} className={filterCheckboxClass}>
-                      <input
-                        type="checkbox"
-                        name={f.name}
-                        checked={filters[f.name]}
-                        onChange={handleFilterChange}
-                        className="accent-blue-600 rounded"
-                      />
-                      {f.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-[11px] font-bold text-sky-600 dark:text-sky-400 uppercase mb-2">
-                  Services
-                </p>
-                <div className="flex flex-col gap-2">
-                  {[
-                    { name: "roomService", label: "🍽️ Room Service" },
-                    { name: "laundryService", label: "🧺 Laundry" },
-                    { name: "housekeeping", label: "🧹 Housekeeping" },
-                  ].map((f) => (
-                    <label key={f.name} className={filterCheckboxClass}>
-                      <input
-                        type="checkbox"
-                        name={f.name}
-                        checked={filters[f.name]}
-                        onChange={handleFilterChange}
-                        className="accent-blue-600 rounded"
-                      />
-                      {f.label}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          <main className="flex-1 w-full">
+        <div className="w-full">
+          <main className="w-full">
             {loading ? (
               <div className="text-center py-28">
                 <div className="relative inline-flex">
@@ -447,7 +352,7 @@ function UserDashBoard() {
             ) : (
               <>
                 <div
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-7"
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6"
                   ref={cardsRef}
                 >
                   {hotels.map((hotel) => (
@@ -562,8 +467,8 @@ function UserDashBoard() {
                               key={pageNum}
                               onClick={() => handlePageChange(pageNum)}
                               className={`w-9 h-9 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 ${currentPage === pageNum
-                                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/30 scale-105"
-                                  : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                ? "bg-blue-600 text-white shadow-md shadow-blue-500/30 scale-105"
+                                : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
                                 }`}
                             >
                               {pageNum}
@@ -590,6 +495,173 @@ function UserDashBoard() {
           </main>
         </div>
       </div>
+
+      {/* Filter Modal Popup */}
+      {mobileFilterOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md transition-opacity">
+          {/* Backdrop Click */}
+          <div
+            className="fixed inset-0"
+            onClick={() => setMobileFilterOpen(false)}
+          />
+
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] z-10 animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🔍</span>
+                <h3 className="font-extrabold text-slate-800 dark:text-white text-base">
+                  Filter Hotels
+                </h3>
+                {Object.values(filters).filter(Boolean).length > 0 && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-sky-400">
+                    {Object.values(filters).filter(Boolean).length} Active
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                {Object.values(filters).filter(Boolean).length > 0 && (
+                  <button
+                    onClick={resetFilters}
+                    className="text-xs text-blue-600 dark:text-sky-400 hover:underline font-bold"
+                  >
+                    Reset
+                  </button>
+                )}
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold text-sm transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body - Scrollable */}
+            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+              {/* Bed Type */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Bed Type
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "kingSizeBed", label: "🛏️ King Size" },
+                    { name: "queenSizeBed", label: "🛏️ Queen Size" },
+                    { name: "singleBed", label: "🛌 Single Bed" },
+                    { name: "doubleBed", label: "🛏️ Double Bed" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Amenities */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Amenities
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "ac", label: "❄️ AC" },
+                    { name: "wifi", label: "📶 Free WiFi" },
+                    { name: "tv", label: "📺 TV" },
+                    { name: "geyser", label: "🚿 Geyser" },
+                    { name: "miniFridge", label: "🧊 Mini Fridge" },
+                    { name: "bathtub", label: "🛁 Bathtub" },
+                    { name: "balcony", label: "🌅 Balcony" },
+                    { name: "sofa", label: "🛋️ Sofa Set" },
+                    { name: "locker", label: "🔐 Locker" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Services */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Services
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "roomService", label: "🍽️ Room Service" },
+                    { name: "laundryService", label: "🧺 Laundry" },
+                    { name: "housekeeping", label: "🧹 Housekeeping" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                        }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between gap-3">
+              <button
+                onClick={resetFilters}
+                className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+              >
+                Reset All
+              </button>
+
+              <button
+                onClick={() => setMobileFilterOpen(false)}
+                className="px-6 py-2.5 rounded-2xl text-xs font-extrabold text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-500/20 transition-all"
+              >
+                Show Results ({totalHotels})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <Footer />
     </div>
   );
 }

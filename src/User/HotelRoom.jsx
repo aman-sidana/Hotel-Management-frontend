@@ -51,6 +51,8 @@ function HotelRoom() {
     roomService: false, laundryService: false, housekeeping: false,
   });
 
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+
   const handleFilterChange = (e) => {
     const { name, checked } = e.target;
     setFilters((prev) => ({ ...prev, [name]: checked }));
@@ -440,10 +442,8 @@ function HotelRoom() {
     );
   }
 
-  const filterCheckboxClass = "flex items-center gap-2 text-sm text-slate-600 dark:text-slate-300 cursor-pointer";
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 w-full" id="hotel-room-content">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 w-full flex flex-col justify-between" id="hotel-room-content">
       <Navbar />
 
       <div className="w-full px-6 lg:px-8 py-4 bg-white/60 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 backdrop-blur-md" id="rooms-header-section">
@@ -492,6 +492,22 @@ function HotelRoom() {
                 </button>
               )}
             </div>
+
+            <button
+              onClick={() => setIsFilterModalOpen(true)}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm ${
+                Object.values(filters).filter(Boolean).length > 0
+                  ? "bg-blue-600 hover:bg-blue-500 text-white"
+                  : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700 hover:border-blue-500"
+              }`}
+            >
+              <span>🔍 Filter Rooms</span>
+              {Object.values(filters).filter(Boolean).length > 0 && (
+                <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-sky-400 text-slate-950 font-black">
+                  {Object.values(filters).filter(Boolean).length}
+                </span>
+              )}
+            </button>
 
             <select
               value={sortBy}
@@ -922,7 +938,174 @@ function HotelRoom() {
         </div>
       )}
 
-    </div >
+      {/* Filter Modal Popup */}
+      {isFilterModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md transition-opacity">
+          <div
+            className="fixed inset-0"
+            onClick={() => setIsFilterModalOpen(false)}
+          />
+
+          <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] z-10 animate-in fade-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+              <div className="flex items-center gap-2.5">
+                <span className="text-xl">🔍</span>
+                <h3 className="font-extrabold text-slate-800 dark:text-white text-base">
+                  Filter Rooms
+                </h3>
+                {Object.values(filters).filter(Boolean).length > 0 && (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-sky-400">
+                    {Object.values(filters).filter(Boolean).length} Active
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center gap-3">
+                {Object.values(filters).filter(Boolean).length > 0 && (
+                  <button
+                    onClick={resetFilters}
+                    className="text-xs text-blue-600 dark:text-sky-400 hover:underline font-bold"
+                  >
+                    Reset
+                  </button>
+                )}
+                <button
+                  onClick={() => setIsFilterModalOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center font-bold text-sm transition-colors"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-6 overflow-y-auto flex-1 space-y-6">
+              {/* Bed Type */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Bed Type
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "kingSizeBed", label: "🛏️ King Size" },
+                    { name: "queenSizeBed", label: "🛏️ Queen Size" },
+                    { name: "singleBed", label: "🛌 Single Bed" },
+                    { name: "doubleBed", label: "🛏️ Double Bed" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${
+                        filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Amenities */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Amenities
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "ac", label: "❄️ AC" },
+                    { name: "wifi", label: "📶 Free WiFi" },
+                    { name: "tv", label: "📺 TV" },
+                    { name: "geyser", label: "🚿 Geyser" },
+                    { name: "miniFridge", label: "🧊 Mini Fridge" },
+                    { name: "bathtub", label: "🛁 Bathtub" },
+                    { name: "balcony", label: "🌅 Balcony" },
+                    { name: "sofa", label: "🛋️ Sofa Set" },
+                    { name: "locker", label: "🔐 Locker" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${
+                        filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Services */}
+              <div>
+                <p className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider mb-3">
+                  Services
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  {[
+                    { name: "roomService", label: "🍽️ Room Service" },
+                    { name: "laundryService", label: "🧺 Laundry" },
+                    { name: "housekeeping", label: "🧹 Housekeeping" },
+                  ].map((f) => (
+                    <label
+                      key={f.name}
+                      className={`flex items-center gap-2.5 p-3 rounded-2xl border text-xs font-semibold cursor-pointer transition-all ${
+                        filters[f.name]
+                          ? "bg-blue-50 dark:bg-blue-950/50 border-blue-500 text-blue-700 dark:text-blue-300 shadow-sm"
+                          : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700"
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        name={f.name}
+                        checked={filters[f.name]}
+                        onChange={handleFilterChange}
+                        className="accent-blue-600 w-4 h-4 rounded cursor-pointer"
+                      />
+                      <span>{f.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between gap-3">
+              <button
+                onClick={resetFilters}
+                className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-400 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors"
+              >
+                Reset All
+              </button>
+
+              <button
+                onClick={() => setIsFilterModalOpen(false)}
+                className="px-6 py-2.5 rounded-2xl text-xs font-extrabold text-white bg-blue-600 hover:bg-blue-500 shadow-md shadow-blue-500/20 transition-all"
+              >
+                Show Results ({totalRooms})
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
   );
 }
 

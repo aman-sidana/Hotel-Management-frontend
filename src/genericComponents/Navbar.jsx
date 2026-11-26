@@ -78,9 +78,6 @@ function Navbar() {
                     <p className="text-sm font-bold text-slate-800 dark:text-white truncate">
                       {currentUser.name || currentUser.username || "User"}
                     </p>
-                    <p className="text-xs text-slate-400 dark:text-slate-500 capitalize mt-0.5">
-                      Role: <span className="font-semibold text-slate-600 dark:text-slate-300">{currentUser.role || "Guest"}</span>
-                    </p>
                   </div>
 
                   <div className="py-1">

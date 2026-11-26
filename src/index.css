@@ -8,6 +8,7 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -29,7 +30,7 @@
     @apply bg-slate-50 text-slate-900 min-h-screen;
   }
 
-  
+
   html.dark body {
     @apply bg-slate-900 text-slate-50;
   }
@@ -47,26 +48,48 @@
 
 @layer components {
 
-  
+
   .auth-page-wrapper {
-    @apply min-h-screen flex items-center justify-center p-4 relative overflow-hidden;
-    @apply bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900;
+    @apply min-h-screen w-full flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden;
+    @apply bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950;
   }
 
   .gradient-orb {
-    @apply absolute rounded-full opacity-20 blur-3xl pointer-events-none;
+    @apply absolute rounded-full opacity-25 blur-3xl pointer-events-none;
   }
 
   .orb-1 {
-    @apply w-96 h-96 bg-blue-500 -top-32 -left-32;
+    @apply w-[30rem] h-[30rem] bg-blue-600 -top-40 -left-40;
   }
 
   .orb-2 {
-    @apply w-80 h-80 bg-sky-400 top-1/2 -right-20;
+    @apply w-96 h-96 bg-sky-500 top-1/2 -right-32;
   }
 
   .orb-3 {
-    @apply w-72 h-72 bg-indigo-500 bottom-10 left-1/4;
+    @apply w-80 h-80 bg-indigo-600 bottom-10 left-1/3;
+  }
+
+  .auth-split-container {
+    @apply relative z-10 w-full max-w-5xl min-h-[540px] rounded-3xl overflow-hidden shadow-2xl flex flex-col lg:flex-row;
+    @apply bg-slate-900/60 backdrop-blur-2xl border border-white/15 scale-[0.95] transform origin-center transition-transform duration-300;
+    @apply dark:bg-slate-900/90 dark:border-slate-800;
+  }
+
+  .auth-showcase-panel {
+    @apply relative w-full lg:w-1/2 min-h-[500px] lg:min-h-[540px] overflow-hidden rounded-t-3xl lg:rounded-tr-none lg:rounded-l-3xl;
+  }
+
+  .auth-showcase-img {
+    @apply absolute inset-0 w-full h-full object-cover object-center scale-105 transition-transform duration-700 hover:scale-100;
+  }
+
+  .auth-showcase-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/75 to-blue-950/50 backdrop-blur-[1px];
+  }
+
+  .auth-form-panel {
+    @apply w-full lg:w-1/2 p-6 sm:p-9 lg:p-11 flex flex-col justify-center bg-slate-900/40 backdrop-blur-xl;
   }
 
   .auth-card {
@@ -114,7 +137,7 @@
   }
 
   .error-banner {
-    @apply px-4 py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-sm text-center;
+    @apply px-4 py-3 rounded-xl bg-red-500/20 border border-red-500/40 text-red-300 text-xs sm:text-sm text-center font-medium;
   }
 
   .divider {
@@ -135,22 +158,21 @@
     @apply text-sky-400 cursor-pointer hover:text-sky-300 font-semibold transition-colors;
   }
 
-  
   .btn-primary {
-    @apply w-full py-3 px-5 rounded-xl font-semibold text-sm text-white;
-    @apply bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30;
-    @apply transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+    @apply w-full py-3.5 px-5 rounded-xl font-bold text-sm text-white;
+    @apply bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-500 hover:to-sky-400 shadow-lg shadow-blue-600/35;
+    @apply transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer;
     @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0;
   }
 
   .btn-secondary {
     @apply w-full py-3 px-5 rounded-xl font-semibold text-sm;
     @apply bg-white/10 text-slate-200 border border-white/20;
-    @apply hover:bg-white/20 transition-all duration-200 hover:-translate-y-0.5;
+    @apply hover:bg-white/20 transition-all duration-200 hover:-translate-y-0.5 cursor-pointer;
     @apply dark:bg-slate-700/50 dark:text-slate-200 dark:border-slate-600;
   }
 
-  
+
   .sidebar-container {
     @apply w-full md:w-64 md:min-w-[250px] md:h-screen sticky top-0 flex flex-col justify-between flex-shrink-0;
     @apply bg-white border-b md:border-b-0 md:border-r border-slate-200 text-slate-800 shadow-md md:shadow-xl z-30;
@@ -181,7 +203,7 @@
     @apply bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-600/30 font-bold;
   }
 
-  
+
   .dashboard-layout {
     @apply flex flex-col md:flex-row min-h-screen w-full bg-slate-50 dark:bg-slate-900;
   }
@@ -190,7 +212,7 @@
     @apply flex-1 min-h-screen p-4 sm:p-6 lg:p-8 overflow-y-auto w-full max-w-full;
   }
 
-  
+
   .management-module {
     @apply w-full rounded-2xl border p-4 sm:p-6 lg:p-7 shadow-xl transition-all duration-200;
     @apply bg-white border-slate-200/80;
@@ -203,7 +225,7 @@
     @apply dark:from-white dark:via-sky-200 dark:to-blue-400;
   }
 
-  
+
   .table-container {
     @apply overflow-x-auto rounded-2xl border shadow-sm;
     @apply border-slate-200 dark:border-slate-700/80;
@@ -238,7 +260,7 @@
     @apply bg-slate-50/80 dark:bg-slate-700/40 transition-colors;
   }
 
-  
+
   .form-input,
   .form-select,
   .form-textarea {
@@ -255,7 +277,7 @@
     @apply bg-white text-slate-800 dark:bg-slate-700 dark:text-slate-100;
   }
 
-  
+
   .btn-action-primary {
     @apply px-3.5 py-2 rounded-lg text-xs font-semibold;
     @apply bg-blue-600 text-white hover:bg-blue-500 transition-colors;
@@ -282,7 +304,7 @@
     @apply bg-emerald-500 text-white hover:bg-emerald-600 transition-colors;
   }
 
-  
+
   .status-badge {
     @apply inline-block px-2.5 py-1 rounded-full text-xs font-bold capitalize whitespace-nowrap;
   }
@@ -308,7 +330,7 @@
     @apply bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400;
   }
 
-  
+
   .admin-card {
     @apply rounded-xl border overflow-hidden transition-all duration-200;
     @apply bg-white border-slate-200 shadow-sm;
@@ -320,7 +342,7 @@
     @apply opacity-60;
   }
 
-  
+
   .modal-overlay {
     @apply fixed inset-0 z-50 flex items-center justify-center;
     @apply bg-black/60 backdrop-blur-sm;
@@ -332,7 +354,7 @@
     @apply dark:bg-slate-800 dark:border-slate-700;
   }
 
-  
+
   .user-navbar {
     @apply flex items-center justify-between px-[5%] py-5;
     @apply sticky top-0 z-50;
@@ -340,7 +362,7 @@
     @apply dark:bg-slate-900/80 dark:border-slate-700;
   }
 
-  
+
   .user-hotel-card,
   .user-room-card {
     @apply rounded-xl border overflow-hidden flex flex-col cursor-pointer;
@@ -350,14 +372,14 @@
     @apply dark:bg-slate-800 dark:border-slate-700 dark:hover:border-blue-500;
   }
 
-  
+
   .admin-inline-form {
     @apply rounded-xl border p-5 mb-7;
     @apply bg-slate-50 border-slate-200;
     @apply dark:bg-slate-700/30 dark:border-slate-600;
   }
 
-  
+
   .room-calendar-wrapper {
     @apply flex flex-col gap-3;
   }
@@ -390,7 +412,7 @@
     @apply flex justify-between text-xs text-slate-500 dark:text-slate-400 mt-1 px-1;
   }
 
-  
+
   .room-datepicker {
     border: 1px solid #e2e8f0 !important;
     border-radius: 12px !important;
@@ -401,7 +423,7 @@
     width: 100% !important;
   }
 
-  
+
   html.dark .room-datepicker {
     background: #1e293b !important;
     border-color: #475569 !important;
@@ -489,7 +511,7 @@
     border-color: #94a3b8 !important;
   }
 
-  
+
   .room-datepicker .react-datepicker__month-select,
   .room-datepicker .react-datepicker__year-select {
     background: #fff !important;
@@ -507,7 +529,7 @@
     border-color: #475569 !important;
   }
 
-  
+
   .room-datepicker .react-datepicker__day.cal-day--booked {
     background-color: #F59E0B !important;
     color: #fff !important;
@@ -519,7 +541,7 @@
     background-color: #D97706 !important;
   }
 
-  
+
   .room-datepicker .react-datepicker__day.cal-day--checkin {
     background-color: #EF4444 !important;
     color: #fff !important;
@@ -536,37 +558,37 @@
 @layer utilities {
   .text-xs {
     font-size: 0.8125rem !important;
-    
+
     line-height: 1.4rem !important;
   }
 
-  
+
   .text-\[10px\] {
     font-size: 0.8125rem !important;
     line-height: 1.4rem !important;
   }
 
-  
+
   .filter-row {
     @apply flex flex-col sm:flex-row gap-3 items-stretch sm:items-center flex-wrap;
   }
 
-  
+
   .admin-cards-grid {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5;
   }
 
-  
+
   .room-cards-grid {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5;
   }
 
-  
+
   .booking-info-grid {
     @apply grid grid-cols-1 sm:grid-cols-3 gap-4;
   }
 
-  
+
   .tab-group {
     @apply flex gap-2 flex-wrap;
   }

@@ -3,6 +3,7 @@ import axios from "axios";
 import { gsap } from "gsap";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../genericComponents/Navbar";
+import Footer from "../genericComponents/Footer";
 
 function UserBooking() {
   const navigate = useNavigate();
@@ -168,10 +169,10 @@ function UserBooking() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-16">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <div className="px-5 py-6 max-w-7xl mx-auto">
+      <div className="px-5 py-6 max-w-7xl mx-auto mb-16 flex-1 w-full">
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <div className="flex items-center gap-4">
             <button
@@ -372,6 +373,7 @@ function UserBooking() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }
