@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AuthHotelBackground from "./AuthHotelBackground";
 
 function Forgetpassword() {
     const navigate = useNavigate();
@@ -66,9 +67,7 @@ function Forgetpassword() {
 
     return (
         <div className="auth-page-wrapper">
-            <div className="gradient-orb orb-1"></div>
-            <div className="gradient-orb orb-2"></div>
-            <div className="gradient-orb orb-3"></div>
+            <AuthHotelBackground overlayIntensity="medium" showControls={false} />
 
             <div className="auth-card max-w-sm">
                 <div className="auth-header">

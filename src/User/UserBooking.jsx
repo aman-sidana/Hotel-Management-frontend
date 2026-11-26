@@ -150,7 +150,7 @@ function UserBooking() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-slate-50 dark:bg-[#0b0f19] flex items-center justify-center p-4">
         <div className="text-center">
           <div className="text-5xl mb-4">🔒</div>
           <h2 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">Please Login</h2>
@@ -169,7 +169,7 @@ function UserBooking() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col justify-between">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0b0f19] flex flex-col justify-between">
       <Navbar />
 
       <div className="px-5 py-6 max-w-7xl mx-auto mb-16 flex-1 w-full">

@@ -25,26 +25,21 @@ function Navbar() {
   const firstLetter = (currentUser?.name || currentUser?.username || "U")[0].toUpperCase();
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800 shadow-sm transition-colors duration-200">
+    <header className="sticky top-0 z-50 w-full backdrop-blur-xl bg-white/85 dark:bg-[#0b0f19]/85 border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-colors duration-200">
       <div className="w-full px-6 lg:px-10 h-16 flex items-center justify-between gap-4">
 
         <div
           onClick={() => navigate("/")}
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-2.5 cursor-pointer group"
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-sky-400 flex items-center justify-center text-white text-xl shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
-            🏨
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xl font-black tracking-tight bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-600 dark:from-white dark:via-sky-300 dark:to-blue-400 bg-clip-text text-transparent">
-                THE Guest's
-              </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
-                Hotels
-              </span>
-            </div>
-          </div>
+          <img
+            src="/innsync-logo.png"
+            alt="InnSync Logo"
+            className="w-9 h-9 object-contain group-hover:scale-105 transition-transform duration-200 drop-shadow-sm"
+          />
+          <span className="text-xl font-black tracking-tight bg-gradient-to-r from-blue-700 via-sky-600 to-indigo-600 dark:from-white dark:via-sky-300 dark:to-blue-400 bg-clip-text text-transparent">
+            InnSync
+          </span>
         </div>
 
         <div className="flex items-center gap-3">

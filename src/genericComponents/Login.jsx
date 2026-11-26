@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { gsap } from 'gsap'
 import { useNavigate } from 'react-router-dom'
+import AuthHotelBackground, { HOTEL_BACKGROUNDS } from './AuthHotelBackground'
 
 function Login() {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
+    const [currentBgIndex, setCurrentBgIndex] = useState(0)
 
     const showcaseRef = useRef(null)
     const formCardRef = useRef(null)
@@ -23,7 +25,7 @@ function Login() {
             });
             gsap.from(formCardRef.current, {
                 autoAlpha: 0,
-                y: 30,
+                x: 40,
                 duration: 0.85,
                 scale: 0.96,
                 ease: 'back.out(1.4)'
@@ -73,95 +75,82 @@ function Login() {
     }
 
     return (
-        <div className="auth-page-wrapper">
-            {/* Ambient Background Orbs */}
-            <div className="gradient-orb orb-1"></div>
-            <div className="gradient-orb orb-2"></div>
-            <div className="gradient-orb orb-3"></div>
+        <div className="auth-page-wrapper !p-4 sm:!p-6 lg:!p-10 !justify-center lg:!justify-between">
+            {/* Dynamic Fullscreen Hotel Images Background Slideshow */}
+            <AuthHotelBackground
+                currentIndex={currentBgIndex}
+                onIndexChange={setCurrentBgIndex}
+                overlayIntensity="medium"
+            />
 
-            {/* Split Screen Container */}
-            <div className="auth-split-container">
+            {/* Responsive Layout Container */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 py-4">
 
-                {/* Left Panel: Luxury Showcase */}
-                <div ref={showcaseRef} className="auth-showcase-panel hidden lg:flex">
-                    {/* Background Showcase Image */}
-                    <img
-                        src="/luxury_hotel_banner.jpg"
-                        alt="Luxury Resort"
-                        className="auth-showcase-img"
-                    />
-                    <div className="auth-showcase-overlay"></div>
+                {/* Left Side: Luxury Hotel Brand & Hero Showcase */}
+                <div ref={showcaseRef} className="hidden lg:flex flex-col justify-between max-w-xl text-white space-y-6">
+                    {/* Brand Logo */}
+                    <div className="flex items-center gap-3">
+                        <img
+                            src="/innsync-logo.png"
+                            alt="InnSync Logo"
+                            className="w-12 h-12 object-contain drop-shadow-md"
+                        />
+                        <span className="text-2xl font-black tracking-tight bg-gradient-to-r from-white via-sky-200 to-blue-300 bg-clip-text text-transparent">
+                            InnSync
+                        </span>
+                    </div>
 
-                    {/* Showcase Content */}
-                    <div className="relative z-10 flex flex-col justify-between h-full p-8 text-white">
+                    {/* Hero Text Showcase */}
+                    <div className="space-y-4">
+                        <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-md border border-white/20 text-sky-200 shadow-sm">
+                            ✨ {HOTEL_BACKGROUNDS[currentBgIndex]?.location ? `Featured: ${HOTEL_BACKGROUNDS[currentBgIndex].location}` : "Experience Premium Hospitality"}
+                        </span>
+                        <h1 className="text-4xl xl:text-5xl font-extrabold tracking-tight leading-tight text-white drop-shadow-lg">
+                            Discover & Manage Exceptional Stays Worldwide
+                        </h1>
+                        <p className="text-sm xl:text-base text-slate-200 leading-relaxed font-normal max-w-lg drop-shadow">
+                            Access seamless luxury hotel bookings, manage stays, and view real-time reservation details in one unified platform.
+                        </p>
+                    </div>
 
-                        {/* Brand Logo */}
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 flex items-center justify-center text-lg shadow-lg shadow-blue-500/30">
-                                🏨
-                            </div>
+                    {/* Key Highlights */}
+                    <div className="grid grid-cols-2 gap-3.5 pt-1 max-w-lg">
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900/60 backdrop-blur-md border border-white/15 shadow-xl">
+                            <span className="text-2xl">🌟</span>
                             <div>
-                                <span className="text-lg font-black tracking-tight bg-gradient-to-r from-white via-sky-200 to-blue-300 bg-clip-text text-transparent">
-                                    THE Guest's
-                                </span>
-                                <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-500/30 text-sky-300 border border-sky-400/30">
-                                    Hotels
-                                </span>
+                                <p className="text-xs font-bold text-white">500+ Luxury Hotels</p>
+                                <p className="text-[11px] text-slate-300">Curated stay experiences</p>
                             </div>
                         </div>
-
-                        {/* Hero Text Showcase */}
-                        <div className="space-y-5 max-w-md my-auto">
-                            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-white/10 backdrop-blur-md border border-white/20 text-sky-200">
-                                ✨ Experience Premium Hospitality
-                            </span>
-                            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-snug text-white">
-                                Discover & Manage Exceptional Stays Worldwide
-                            </h1>
-                            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
-                                Access seamless luxury hotel bookings, manage stays, and view real-time reservation details in one unified platform.
-                            </p>
-
-                            {/* Key Highlights */}
-                            <div className="grid grid-cols-1 gap-3 pt-1">
-                                <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15">
-                                    <span className="text-lg">🌟</span>
-                                    <div>
-                                        <p className="text-xs font-bold text-white">500+ Luxury Verified Hotels</p>
-                                        <p className="text-[11px] text-slate-300">Curated world-class stay experiences</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15">
-                                    <span className="text-lg">⚡</span>
-                                    <div>
-                                        <p className="text-xs font-bold text-white">Instant Confirmation</p>
-                                        <p className="text-[11px] text-slate-300">Fast & hassle-free booking management</p>
-                                    </div>
-                                </div>
+                        <div className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-slate-900/60 backdrop-blur-md border border-white/15 shadow-xl">
+                            <span className="text-2xl">⚡</span>
+                            <div>
+                                <p className="text-xs font-bold text-white">Instant Confirmation</p>
+                                <p className="text-[11px] text-slate-300">Fast booking management</p>
                             </div>
                         </div>
+                    </div>
 
-                        {/* Testimonial Badge */}
-                        <div className="pt-6 border-t border-white/15 flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                                <div className="flex -space-x-2">
-                                    <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">JD</div>
-                                    <div className="w-8 h-8 rounded-full bg-sky-400 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">AS</div>
-                                    <div className="w-8 h-8 rounded-full bg-indigo-500 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">MK</div>
-                                </div>
-                                <div>
-                                    <div className="flex text-amber-400 text-xs">★★★★★</div>
-                                    <p className="text-[11px] text-slate-300 font-medium">Trusted by 10,000+ guests & hosts</p>
-                                </div>
-                            </div>
+                    {/* Testimonial / Social Proof */}
+                    <div className="pt-4 border-t border-white/15 flex items-center gap-3 max-w-lg">
+                        <div className="flex -space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-blue-500 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">JD</div>
+                            <div className="w-8 h-8 rounded-full bg-sky-400 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">AS</div>
+                            <div className="w-8 h-8 rounded-full bg-indigo-500 border-2 border-slate-900 flex items-center justify-center text-xs font-bold">MK</div>
                         </div>
-
+                        <div>
+                            <div className="flex text-amber-400 text-xs">★★★★★</div>
+                            <p className="text-xs text-slate-300 font-medium">Trusted by 10,000+ guests & hosts worldwide</p>
+                        </div>
                     </div>
                 </div>
 
-                {/* Right Panel: Login Form Card */}
-                <div ref={formCardRef} className="auth-form-panel">
-                    <div className="w-full max-w-md mx-auto space-y-6">
+                {/* Right Side: Standalone Login Form Card */}
+                <div
+                    ref={formCardRef}
+                    className="w-full max-w-md lg:max-w-lg rounded-3xl bg-slate-900/80 backdrop-blur-2xl border border-white/15 p-7 sm:p-9 shadow-2xl lg:ml-auto"
+                >
+                    <div className="w-full space-y-6">
 
                         {/* Header */}
                         <div className="text-left space-y-2">

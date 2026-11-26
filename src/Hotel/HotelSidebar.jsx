@@ -58,8 +58,13 @@ function HotelSidebar({ activetab, SetActivetab }) {
       <div>
         <div className="sidebar-header border-b border-slate-200 dark:border-slate-700/70 p-4">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
-              🏨 THE Guest's
+            <h2 className="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2.5">
+              <img
+                src="/innsync-logo.png"
+                alt="InnSync Logo"
+                className="w-7 h-7 object-contain"
+              />
+              <span>InnSync</span>
             </h2>
             <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/20 dark:text-emerald-400 dark:border-emerald-500/30">
               Hotel Manager
